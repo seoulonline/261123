@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
-/* VOICE everyday learning: 밝은 교육 포털 느낌, 글은 적게, 문장은 '-다'체로 짧게, 시각 표시 없음
+/* VOICE everyday learning: 밝은 교육 포털 느낌, 글은 적게, 문장은 존댓말로 짧게, 시각 표시 없음
    IDEA 2시간 연수를 원형 다이얼로. 구간이 링 위의 호가 된다
    PICTURE 원형 다이얼(파트별 그라데이션 호, 점선 가이드 원), 가운데 구간 이름
    COLOUR 흰 바탕, 남색 잉크, 파트별 색: 만들기 파랑, 연결하기 보라, 자동화하기 청록
@@ -99,6 +99,46 @@ details.more[open] .c{display:inline}
 .body b{color:var(--ink)}
 .lab{font-size:13px;font-weight:700;color:var(--c2);margin:16px 0 4px}
 .body .lab:first-child{margin-top:0}
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+figure.gif{margin:18px 0 0}
+.shots figure.gif{margin:0}
+figure.gif button{display:block;width:100%;padding:0;border:0;background:var(--soft);cursor:zoom-in;border-radius:16px;overflow:hidden;box-shadow:var(--sh),0 0 0 1px var(--line)}
+figure.gif img{display:block;width:100%;height:auto}
+figure.gif figcaption{font-size:13px;color:var(--mute);margin-top:8px;line-height:1.5}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,14,25,.85);display:none;align-items:center;justify-content:center;padding:4vw;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+@media(max-width:600px){.shots{grid-template-columns:minmax(0,1fr)}}
+.dl{display:inline-flex;align-items:center;gap:10px;min-height:46px;margin-top:18px;padding:0 22px;border-radius:999px;background:linear-gradient(90deg,var(--c),var(--c2));color:var(--bg);font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 12px 26px -12px var(--c)}
+.dl svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dl:hover{filter:brightness(1.06)}
+.dlnote{font-size:13px;color:var(--mute);margin:8px 0 0}
+.notice{background:var(--vt);color:var(--ink);font-size:14px}
+.notice .wrap{display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;min-height:52px;padding-block:6px}
+.notice span{color:var(--sub)}
+.notice b{color:var(--ink);margin-right:8px}
+.dl.sm{margin-top:0;min-height:38px;padding:0 18px;font-size:14px}
+.adm{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;color:var(--sub);white-space:nowrap}
+.adm:hover{background:var(--soft);color:var(--ink)}
+.adm svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tr{display:flex;align-items:center;gap:6px}
+.admin{position:fixed;inset:0;z-index:40;background:var(--bg);overflow:auto;padding:clamp(20px,4vw,56px) max(5vw,16px)}
+.admin[hidden]{display:none}
+.admin .wrap{position:relative}
+.admin .x{position:absolute;right:0;top:0;width:44px;height:44px;border:0;border-radius:999px;background:var(--soft);color:var(--ink);font-size:24px;line-height:1;cursor:pointer}
+.pwf{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:460px}
+.pwf input{flex:1 1 220px;font:inherit;font-size:16px;min-height:48px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:var(--soft);color:var(--ink)}
+.pwf button{min-height:48px;padding:0 24px;border:0;border-radius:999px;background:linear-gradient(90deg,var(--c),var(--c2));color:var(--bg);font:inherit;font-weight:700;cursor:pointer}
+.err{color:light-dark(#c0392b,#ff8a80);font-size:14px;font-weight:600;margin:10px 0 0}
+.qrs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin-top:32px}
+.qr{margin:0;background:var(--card);border-radius:28px;box-shadow:var(--sh);padding:20px 20px 22px;text-align:center}
+.qr button{display:block;width:100%;padding:0;border:0;background:#fff;border-radius:16px;overflow:hidden;cursor:zoom-in}
+.qr img{display:block;width:100%;height:auto;image-rendering:pixelated}
+.qr figcaption{margin-top:14px;display:grid;gap:2px}
+.qr figcaption b{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.qr figcaption span{font-size:14px;color:var(--mute)}
+.lb.qrmode img{image-rendering:pixelated;background:#fff;max-height:88vh}
+@media(max-width:760px){.qrs{grid-template-columns:minmax(0,1fr);max-width:420px}.adm span{display:none}.adm{padding:0 10px}}
 .pr{background:var(--card);border-radius:24px;box-shadow:var(--sh),0 0 0 1px var(--line);overflow:hidden}
 .pr header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 10px 10px 20px;border-bottom:1px solid var(--line);min-height:60px}
 .pr header span{font-size:13px;font-weight:700;color:var(--c2)}
@@ -106,7 +146,7 @@ details.more[open] .c{display:inline}
 .links{padding:12px 20px 14px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;font-weight:600}
 .links a{color:var(--c2);text-underline-offset:3px}
 .copy{font:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 18px;border:0;border-radius:999px;color:var(--c2);background:var(--t);box-shadow:0 10px 22px -12px var(--c);cursor:pointer;white-space:nowrap}
-.copy:hover{background:linear-gradient(90deg,var(--c),var(--c2));color:#fff}
+.copy:hover{background:linear-gradient(90deg,var(--c),var(--c2));color:var(--bg)}
 a:focus-visible,.copy:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--c,var(--b1));outline-offset:3px}
 .tw{overflow-x:auto;margin:4px 0 12px}
 table{width:100%;border-collapse:collapse;font-size:14px}
@@ -133,23 +173,25 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
 </head>
 <body>
 
+<div class="notice band p2"><div class="wrap"><span><b>실습용 책 정리본</b>연수 참가자에게만 공유된 폴더입니다. 개인 연구와 수업 준비에만 쓰고, 다시 배포하지 않습니다.</span><a class="dl sm" href="https://sen1389-my.sharepoint.com/:f:/g/personal/hyunuk7642_microsoft_seoul_kr/IgAAYP9xSa19RLt_v6jAjK-hARsd5rr8PeZ_kmjlG0uzT4c?e=y6ENHI" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>정리본 받기</a></div></div>
+
 <nav class="top band" aria-label="주요 메뉴">
   <div class="wrap">
     <a class="brand" href="#top"><span class="mark"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.5l7 4.5-7 4.5z" fill="#fff"/></svg></span>Claude 실전 활용 연수</a>
     <div class="menu"><a href="#roadmap">로드맵</a><a href="#part1">만들기</a><a href="#part2">연결하기</a><a href="#part3">자동화하기</a></div>
-    <a class="cta" href="#s-close">마무리</a>
+    <div class="tr"><a class="adm" href="#admin" aria-label="관리자 페이지"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span>관리자</span></a><a class="cta" href="#s-close">마무리</a></div>
   </div>
 </nav>
 
 <header class="band p1" id="top">
   <div class="wrap hero">
     <div class="ht">
-      <h1><span>학교에서 사용하는,</span><span class="grad">Claude를</span><span>함께 알아보아요!</span></h1>
-      <p class="sub">서울온라인학교 교사 강현욱</p>
+      <h1><span>교실의 내일,</span><span class="grad">Claude로</span><span>직접 만듭니다.</span></h1>
+      <p class="sub">만들고, 잇고, 자동화합니다. 2시간 동안 직접 해 보는 연수입니다.</p>
     </div>
     <div class="fig" id="fig" role="img" aria-label="120분 연수 구간을 나타낸 원형 다이얼">
       <svg id="dial"></svg>
-      <div class="dc" id="dc"><b id="dcT">11월 23일</b><span id="dcS">함께 알아볼 내용</span></div>
+      <div class="dc" id="dc"><b id="dcT">2시간</b><span id="dcS">11개 구간</span></div>
     </div>
   </div>
 </header>
@@ -157,7 +199,7 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
 <section class="band sec p1" id="roadmap">
   <div class="wrap">
     <span class="eyebrow">Roadmap</span>
-    <h2 class="sh">Cladue로 할 수 있는 것들을.<br><strong class="grad">아이디어를 함께 나누어요!</strong></h2>
+    <h2 class="sh">2시간, 9개의 실습.<br><strong class="grad">만들고, 잇고, 자동화합니다.</strong></h2>
     <div class="grid">
       <a class="card p0" href="#s-open"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span><h3 class="grad">오프닝</h3></span></a>
       <a class="card p1" href="#s-motion"><span class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg></span><span><h3 class="grad">모션 그래픽</h3></span></a>
@@ -177,12 +219,12 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
 
     <section class="panel p0" id="s-open">
       <span class="badge">Start</span>
-      <h2 class="ph2">도구보다 <strong class="grad">원칙이 먼저라는 생각으로 AI를 사용하는 것이 중요하다고 생각합니다.</strong></h2>
+      <h2 class="ph2">도구보다 <strong class="grad">원칙이 먼저입니다</strong></h2>
       <div class="seg">
         <div>
-          <h3>AI 활용</h3>
-          <p class="say">AI가 만든 결과물을 최종 판단하는 사람은 누구일까? <b>교사입니다.</b> 서울시교육청 AI 공교육도입 가이드라인에서 제시하는 내용을 한 번쯤은 숙지하는 것도 좋을 것 같습니다.</p>
-             <div class="chips"><span>주도성</span><span>교육적 합목적성</span><span>포용성</span><span>안전성</span><span>투명성</span></div>
+          <h3>오프닝</h3>
+          <p class="say">AI가 만든 결과물을 최종 판단하는 사람은 누구일까요? <b>교사입니다.</b> 서울시교육청 AI 5원칙을 오늘의 실습 규칙으로 삼습니다.</p>
+          <div class="chips"><span>주도성</span><span>교육적 합목적성</span><span>포용성</span><span>안전성</span><span>투명성</span></div>
           <details class="more">
             <summary><span class="o">자세히</span><span class="c">접기</span></summary>
             <div class="body">
@@ -348,6 +390,7 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
         <div>
           <h3>GitHub 배포</h3>
           <p class="say">학생은 로그인 없이 링크 하나로 들어와야 합니다. 그래서 <b>학생용 앱은 GitHub Pages로 배포합니다.</b></p>
+          <div class="shots"><figure class="gif"><button type="button" aria-label="크게 보기: GitHub에서 새 저장소를 만드는 과정"><img src="assets/gif/github-new-repo.gif" alt="GitHub에서 새 저장소를 만드는 과정" width="1000" height="516" loading="lazy" decoding="async"></button><figcaption>저장소 만들기 · New repository → 이름 → Public → Create</figcaption></figure><figure class="gif"><button type="button" aria-label="크게 보기: GitHub Pages에서 main 브랜치로 사이트를 공개하는 과정"><img src="assets/gif/github-pages.gif" alt="GitHub Pages에서 main 브랜치로 사이트를 공개하는 과정" width="1000" height="516" loading="lazy" decoding="async"></button><figcaption>Settings → Pages → main · /(root) → Save → 공개</figcaption></figure></div>
           <details class="more">
             <summary><span class="o">자세히</span><span class="c">접기</span></summary>
             <div class="body">
@@ -381,6 +424,7 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
         <div>
           <h3>캘린더</h3>
           <p class="say">공문을 붙여 넣으면 일정이 캘린더에 들어가고, 휴대폰에서도 바로 보입니다. <b>등록 전 확인 한 번</b>이 실수를 막습니다.</p>
+          <figure class="gif"><button type="button" aria-label="크게 보기: Claude에서 Google Calendar 커넥터를 연결하는 과정"><img src="assets/gif/calendar-connect.gif" alt="Claude에서 Google Calendar 커넥터를 연결하는 과정" width="1000" height="640" loading="lazy" decoding="async"></button><figcaption>사용자 지정 → 커넥터 → 추가 → Google Calendar → 연결 → 권한 허용 (계정 정보는 흐림 처리)</figcaption></figure>
           <details class="more">
             <summary><span class="o">자세히</span><span class="c">접기</span></summary>
             <div class="body">
@@ -412,6 +456,7 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
         <div>
           <h3>스킬</h3>
           <p class="say">한 번 잘 된 작업을 매번 처음부터 다시 할 필요는 없습니다. <b>순서를 스킬로 저장해 두면 다음에는 한 줄이면 됩니다.</b></p>
+          <figure class="gif"><button type="button" aria-label="크게 보기: Claude 사용자 지정의 스킬 메뉴와 스킬 업로드 창"><img src="assets/gif/skill-menu.gif" alt="Claude 사용자 지정의 스킬 메뉴와 스킬 업로드 창" width="1000" height="580" loading="lazy" decoding="async"></button><figcaption>저장한 스킬은 사용자 지정 → 스킬에 모입니다. 받은 스킬 파일(zip)도 여기서 올립니다</figcaption></figure>
           <details class="more">
             <summary><span class="o">자세히</span><span class="c">접기</span></summary>
             <div class="body">
@@ -489,6 +534,34 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
 
   </div>
 </main>
+
+<section class="admin p1" id="adminPage" hidden aria-label="관리자 페이지">
+  <div class="wrap">
+    <button class="x" type="button" id="admClose" aria-label="닫기">×</button>
+    <div id="lock">
+      <span class="badge">Admin</span>
+      <h2 class="ph2">관리자 페이지</h2>
+      <p class="plead">비밀번호를 넣으면 출석·설문 QR이 열립니다.</p>
+      <form class="pwf" id="pwf" autocomplete="off">
+        <input type="password" id="pw" placeholder="비밀번호" aria-label="비밀번호">
+        <button type="submit" id="pwBtn">열기</button>
+      </form>
+      <p class="err" id="err" hidden></p>
+    </div>
+    <div id="board" hidden>
+      <span class="badge">Admin</span>
+      <h2 class="ph2">QR로 <strong class="grad">참여해 주세요</strong></h2>
+      <p class="plead">QR을 누르면 화면 가득 크게 보입니다.</p>
+      <div class="qrs">
+        <figure class="qr"><button type="button" aria-label="출석·퇴실 QR 크게 보기"><img id="qr0" alt="출석·퇴실 QR" width="480" height="480"></button><figcaption><b>출석 · 퇴실</b><span>들어올 때와 나갈 때 한 번씩</span></figcaption></figure>
+        <figure class="qr"><button type="button" aria-label="사후 설문 QR 크게 보기"><img id="qr1" alt="사후 설문 QR" width="480" height="480"></button><figcaption><b>사후 설문</b><span>연수가 끝난 뒤</span></figcaption></figure>
+        <figure class="qr"><button type="button" aria-label="연수 만족도 조사 QR 크게 보기"><img id="qr2" alt="연수 만족도 조사 QR" width="480" height="480"></button><figcaption><b>연수 만족도 조사</b><span>연수를 마치며</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lb" id="lb" role="dialog" aria-label="크게 보기"><img id="lbImg" alt=""></div>
 
 <footer class="band foot">
   <div class="wrap">
@@ -584,6 +657,69 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
   roFig.observe(fig);
   draw();
 
+  // ───── 관리자 페이지 ─────
+  // QR 이미지는 비밀번호로 암호화(AES-GCM)해서 넣어 두었습니다.
+  // 코드 안에는 비밀번호가 없고, 맞는 비밀번호를 넣어야만 QR이 풀립니다.
+  const ENC = {salt:'hggSSDUzecluc/nokw6wkQ==', iv:'hlXbq4/YEwIDI28r', it:310000, ct:'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'};
+  const admPage = $('#adminPage'), lock = $('#lock'), board = $('#board'), pwf = $('#pwf'), pw = $('#pw'), err = $('#err'), pwBtn = $('#pwBtn');
+  let unlocked = false;
+  const b64 = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+
+  // 비밀번호 → 열쇠(PBKDF2) → 암호문 풀기(AES-GCM). 틀리면 오류가 납니다.
+  const decrypt = async pass => {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey({name:'PBKDF2', salt:b64(ENC.salt), iterations:ENC.it, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['decrypt']);
+    const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:b64(ENC.iv)}, key, b64(ENC.ct));
+    return JSON.parse(new TextDecoder().decode(plain));
+  };
+
+  const openAdmin = () => {
+    admPage.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lock.hidden = unlocked; board.hidden = !unlocked;
+    if (!unlocked) setTimeout(() => pw.focus(), 50);
+  };
+  const closeAdmin = () => {
+    admPage.hidden = true;
+    document.body.style.overflow = '';
+    if (location.hash === '#admin') { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { location.hash = ''; } }
+  };
+
+  pwf.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    err.hidden = true;
+    if (!window.crypto || !crypto.subtle) { err.textContent = '이 화면에서는 열 수 없습니다. https 주소에서 열어 주세요.'; err.hidden = false; return; }
+    pwBtn.disabled = true; pwBtn.textContent = '확인 중…';
+    try {
+      const imgs = await decrypt(pw.value);
+      imgs.forEach((src, i) => { $('#qr' + i).src = src; });
+      unlocked = true; pw.value = '';
+      lock.hidden = true; board.hidden = false;
+    } catch (e) {
+      err.textContent = '비밀번호가 맞지 않습니다.'; err.hidden = false; pw.select();
+    }
+    pwBtn.disabled = false; pwBtn.textContent = '열기';
+  });
+
+  // 상단 '관리자' 버튼(#admin)으로 열고, ×·Esc로 닫기
+  document.querySelector('.adm').addEventListener('click', ev => { ev.preventDefault(); openAdmin(); });
+  $('#admClose').addEventListener('click', closeAdmin);
+  if (location.hash === '#admin') openAdmin();
+  window.addEventListener('hashchange', () => { if (location.hash === '#admin') openAdmin(); });
+
+  // GIF를 누르면 크게 보기, 다시 누르거나 Esc로 닫기
+  const lb = $('#lb'), lbImg = $('#lbImg');
+  document.addEventListener('click', ev => {
+    const b = ev.target.closest('figure.gif button, figure.qr button');
+    if (b) { const im = b.querySelector('img'); if (!im.src) return; lbImg.src = im.src; lbImg.alt = im.alt; lb.classList.toggle('qrmode', !!b.closest('figure.qr')); lb.classList.add('on'); return; }
+    if (ev.target.closest('#lb')) { lb.classList.remove('on'); lbImg.removeAttribute('src'); }
+  });
+  document.addEventListener('keydown', ev => {
+    if (ev.key !== 'Escape') return;
+    if (lb.classList.contains('on')) { lb.classList.remove('on'); lbImg.removeAttribute('src'); }
+    else if (!admPage.hidden) closeAdmin();
+  });
+
   // 프롬프트 복사 버튼
   document.addEventListener('click', async ev => {
     const b = ev.target.closest('.copy');
@@ -628,4 +764,3 @@ td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
 </script>
 </body>
 </html>
-
