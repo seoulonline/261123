@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude 실전 활용 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning: 밝은 교육 포털 느낌, 글은 적게, 문장은 '-다'체로 짧게, 시각 표시 없음
+   IDEA 2시간 연수를 원형 다이얼로. 구간이 링 위의 호가 된다
+   PICTURE 원형 다이얼(파트별 그라데이션 호, 점선 가이드 원), 가운데 구간 이름
+   COLOUR 흰 바탕, 남색 잉크, 파트별 색: 만들기 파랑, 연결하기 보라, 자동화하기 청록
+   TYPE Inter + Noto Sans KR, 히어로 800 / 섹션 제목 300 / 본문 400
+   LAYOUT 노트북: 헤드라인 | 다이얼 → 3x3 카드 → 파트별 패널(한두 문장 | 프롬프트, 나머지는 접기) / 휴대폰: 한 줄 */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0b1020);--ink:light-dark(#0f172a,#e8ecf5);--sub:light-dark(#475569,#b6c0d4);--mute:light-dark(#64748b,#94a3b8);
+--line:light-dark(#e6ecf5,#1f2a44);--card:light-dark(#ffffff,#111a2e);--soft:light-dark(#f6f8fc,#0d1528);
+--b1:light-dark(#2f7cf6,#6aa8ff);--b2:light-dark(#1b3f9c,#b3c8ff);--bt:light-dark(#eaf2ff,#15233f);
+--v1:light-dark(#b15cf5,#cf94ff);--v2:light-dark(#6c2bd9,#e6d2ff);--vt:light-dark(#f4ecff,#21193a);
+--g1:light-dark(#0fa394,#3fd9c6);--g2:light-dark(#0b6058,#a6f3e8);--gt:light-dark(#e6faf6,#10302c);
+--n0:light-dark(#cdd9ee,#2c3b62);
+--sh:0 24px 60px -28px light-dark(rgba(15,23,42,.30),rgba(0,0,0,.75)),0 2px 8px light-dark(rgba(15,23,42,.05),rgba(0,0,0,.35))}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:84px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Inter","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;overflow-x:clip;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-inline:max(5vw,16px)}
+.p0,.p1{--c:var(--b1);--c2:var(--b2);--t:var(--bt)}
+.p2{--c:var(--v1);--c2:var(--v2);--t:var(--vt)}
+.p3{--c:var(--g1);--c2:var(--g2);--t:var(--gt)}
+.grad{background:linear-gradient(90deg,var(--c),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;text-decoration:none;white-space:nowrap}
+.mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--b1),var(--v1));display:grid;place-items:center;flex:none}
+.menu{display:flex;gap:2px}
+.menu a{padding:10px 16px;font-size:15px;font-weight:600;color:var(--sub);text-decoration:none;border-radius:999px;white-space:nowrap}
+.menu a:hover{background:var(--soft);color:var(--ink)}
+.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:var(--card);box-shadow:var(--sh);font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-areas:"t f";column-gap:clamp(24px,4vw,64px);row-gap:36px;align-content:center;min-height:min(88svh,840px);padding-block:clamp(40px,6vw,80px)}
+.ht{grid-area:t;align-self:center}
+h1{font-size:clamp(40px,6.2vw,76px);font-weight:800;line-height:1.13;letter-spacing:-.035em;margin:0}
+h1 span{display:block}
+.sub{margin:26px 0 0;color:var(--sub);font-size:18px;line-height:1.8}
+.tile{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;flex:none;background:var(--card);color:var(--c);box-shadow:0 12px 26px -12px color-mix(in srgb,var(--c) 60%,transparent),0 0 0 1px var(--line)}
+.tile svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fig{grid-area:f;position:relative;width:100%;max-width:560px;aspect-ratio:1/1;justify-self:center;align-self:center}
+.fig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.fig .arc{cursor:pointer}
+.fig .arc path{transition:opacity .2s}
+.fig .arc:hover path,.fig .arc:focus path{opacity:.75}
+.fig .arc path{animation:draw 1s ease-out both}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.dc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--dw,50%);display:grid;justify-items:center;text-align:center;pointer-events:none}
+.dc b{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.dc span{font-size:14px;color:var(--mute);margin-top:4px}
+.sec{padding-block:clamp(48px,7vw,96px)}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--c2);text-transform:uppercase}
+.sh{font-size:clamp(28px,3.8vw,46px);font-weight:300;letter-spacing:-.025em;line-height:1.3;margin:14px 0 40px;text-wrap:balance}
+.sh strong{font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px)}
+.card{display:flex;align-items:center;gap:18px;text-decoration:none;background:var(--card);border-radius:28px;box-shadow:var(--sh);padding:22px 24px;transition:transform .25s}
+.card:hover{transform:translateY(-4px)}
+.card h3{font-size:22px;font-weight:400;letter-spacing:-.015em;line-height:1.3;margin:0}
+.card .t{font-size:13px;font-weight:600;color:var(--mute);margin:2px 0 0;white-space:nowrap}
+.panel{position:relative;overflow:hidden;background:var(--card);border-radius:40px;box-shadow:var(--sh);padding:clamp(28px,5vw,64px) clamp(20px,5vw,64px)}
+.panel+.panel{margin-top:clamp(40px,6vw,72px)}
+.panel::before{content:"";position:absolute;right:-14%;top:-28%;width:64%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--t),transparent);pointer-events:none}
+.panel>*{position:relative}
+.badge{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:8px;background:var(--t);color:var(--c2);text-transform:uppercase}
+.ph2{font-size:clamp(28px,3.8vw,46px);font-weight:300;line-height:1.28;letter-spacing:-.025em;margin:16px 0 0;text-wrap:balance}
+.ph2 strong{font-weight:800}
+.plead{color:var(--sub);margin:10px 0 0;font-size:17px}
+.brk{display:inline-flex;gap:10px;align-items:center;margin-top:18px;padding:8px 16px;border:1.5px dashed var(--n0);border-radius:999px;font-size:14px;color:var(--sub)}
+.brk b{color:var(--ink);white-space:nowrap}
+.seg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);padding-top:clamp(28px,4vw,44px);margin-top:clamp(28px,4vw,44px);border-top:1px solid var(--line);align-items:start}
+.meta{font-size:13px;font-weight:600;color:var(--mute);margin:0;white-space:nowrap}
+.seg h3{font-size:clamp(22px,2.4vw,28px);font-weight:700;letter-spacing:-.02em;line-height:1.3;margin:4px 0 12px}
+.say{font-size:17px;line-height:1.85;color:var(--sub);margin:0}
+.say b{color:var(--ink);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips span{padding:6px 14px;border-radius:999px;background:var(--t);color:var(--c2);font-weight:700;font-size:14px;white-space:nowrap}
+details.more{margin-top:18px}
+details.more summary{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 16px;border-radius:999px;background:var(--t);color:var(--c2);font-size:14px;font-weight:700;cursor:pointer;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+details.more[open] summary::after{transform:translateY(2px) rotate(-135deg)}
+details.more .c,details.more[open] .o{display:none}
+details.more[open] .c{display:inline}
+.body{padding-top:16px;font-size:15px;color:var(--sub)}
+.body ul,.body ol{padding-left:1.25em;margin:0 0 12px}
+.body li{margin:4px 0}
+.body li::marker{color:var(--c)}
+.body b{color:var(--ink)}
+.lab{font-size:13px;font-weight:700;color:var(--c2);margin:16px 0 4px}
+.body .lab:first-child{margin-top:0}
+.pr{background:var(--card);border-radius:24px;box-shadow:var(--sh),0 0 0 1px var(--line);overflow:hidden}
+.pr header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 10px 10px 20px;border-bottom:1px solid var(--line);min-height:60px}
+.pr header span{font-size:13px;font-weight:700;color:var(--c2)}
+.pr pre{margin:0;padding:18px 20px;white-space:pre-wrap;font:15px/1.8 "Inter","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--soft)}
+.links{padding:12px 20px 14px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;font-weight:600}
+.links a{color:var(--c2);text-underline-offset:3px}
+.copy{font:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 18px;border:0;border-radius:999px;color:var(--c2);background:var(--t);box-shadow:0 10px 22px -12px var(--c);cursor:pointer;white-space:nowrap}
+.copy:hover{background:linear-gradient(90deg,var(--c),var(--c2));color:#fff}
+a:focus-visible,.copy:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--c,var(--b1));outline-offset:3px}
+.tw{overflow-x:auto;margin:4px 0 12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid var(--line)}
+th{font-size:13px;font-weight:600;color:var(--mute)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.todo{margin:0;padding:6px 20px 10px;list-style:none}
+.todo label{display:flex;gap:12px;align-items:center;min-height:48px;border-bottom:1px solid var(--line);cursor:pointer}
+.todo li:last-child label{border-bottom:0}
+.todo input{width:20px;height:20px;accent-color:var(--c);flex:none}
+.foot{border-top:1px solid var(--line);padding-block:36px;font-size:14px;color:var(--mute);margin-top:clamp(48px,7vw,96px)}
+.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 32px}
+.foot p{margin:0}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media(min-width:900px){.pr.st{position:sticky;top:96px}}
+@media(max-width:900px){.hero{grid-template-columns:minmax(0,1fr);grid-template-areas:"t" "f";min-height:0}.fig{max-width:460px}.seg{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.menu{display:none}}
+@media(max-width:640px){.grid{grid-template-columns:minmax(0,1fr)}.panel{border-radius:28px}.card{border-radius:22px}}
+@media(max-width:420px){.cta{padding:0 14px;font-size:14px}.brand{font-size:15px;gap:8px}}
+@media(max-width:600px){.stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}.stack td{border:0;padding:2px 0;white-space:normal}.stack td::before{content:attr(data-l);display:block;font-size:13px;font-weight:500;color:var(--mute)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.fig .arc path{transition:none;animation:none}}
+</style>
+</head>
+<body>
+
+<nav class="top band" aria-label="주요 메뉴">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.5l7 4.5-7 4.5z" fill="#fff"/></svg></span>Claude 실전 활용 연수</a>
+    <div class="menu"><a href="#roadmap">로드맵</a><a href="#part1">만들기</a><a href="#part2">연결하기</a><a href="#part3">자동화하기</a></div>
+    <a class="cta" href="#s-close">마무리</a>
+  </div>
+</nav>
+
+<header class="band p1" id="top">
+  <div class="wrap hero">
+    <div class="ht">
+      <h1><span>교실의 내일,</span><span class="grad">Claude로</span><span>직접 만든다.</span></h1>
+      <p class="sub">만들고, 잇고, 자동화한다. 2시간 동안 직접 해 보는 연수다.</p>
+    </div>
+    <div class="fig" id="fig" role="img" aria-label="120분 연수 구간을 나타낸 원형 다이얼">
+      <svg id="dial"></svg>
+      <div class="dc" id="dc"><b id="dcT">2시간</b><span id="dcS">11개 구간</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="band sec p1" id="roadmap">
+  <div class="wrap">
+    <span class="eyebrow">Roadmap</span>
+    <h2 class="sh">2시간, 9개의 실습.<br><strong class="grad">만들고, 잇고, 자동화한다.</strong></h2>
+    <div class="grid">
+      <a class="card p0" href="#s-open"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span><h3 class="grad">오프닝</h3></span></a>
+      <a class="card p1" href="#s-motion"><span class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg></span><span><h3 class="grad">모션 그래픽</h3></span></a>
+      <a class="card p1" href="#s-video"><span class="tile"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M8 6l2 4M14 6l2 4"/></svg></span><span><h3 class="grad">개념 영상</h3></span></a>
+      <a class="card p1" href="#s-artifact"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span><span><h3 class="grad">아티팩트</h3></span></a>
+      <a class="card p2" href="#s-pdf"><span class="tile"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17a3 3 0 013-3h11"/></svg></span><span><h3 class="grad">책 PDF</h3></span></a>
+      <a class="card p2" href="#s-github"><span class="tile"><svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9v1a4 4 0 01-4 4H8"/></svg></span><span><h3 class="grad">GitHub 배포</h3></span></a>
+      <a class="card p2" href="#s-cal"><span class="tile"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span><h3 class="grad">캘린더</h3></span></a>
+      <a class="card p3" href="#s-skill"><span class="tile"><svg viewBox="0 0 24 24"><path d="M4 20L15 9"/><path d="M16 3l1.2 2.3L19.5 6.5l-2.3 1.2L16 10l-1.2-2.3L12.5 6.5l2.3-1.2z"/></svg></span><span><h3 class="grad">스킬</h3></span></a>
+      <a class="card p3" href="#s-sched"><span class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></span><span><h3 class="grad">예정</h3></span></a>
+    </div>
+  </div>
+</section>
+
+<main class="band">
+  <div class="wrap">
+
+    <section class="panel p0" id="s-open">
+      <span class="badge">Start</span>
+      <h2 class="ph2">도구보다 <strong class="grad">원칙이 먼저다</strong></h2>
+      <div class="seg">
+        <div>
+          <h3>오프닝</h3>
+          <p class="say">AI가 만든 결과물을 최종 판단하는 사람은 누구일까? <b>교사다.</b> 서울시교육청 AI 5원칙을 오늘의 실습 규칙으로 삼는다.</p>
+          <div class="chips"><span>주도성</span><span>교육적 합목적성</span><span>포용성</span><span>안전성</span><span>투명성</span></div>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <div class="tw">
+                <table class="stack">
+                  <thead><tr><th>원칙</th><th>오늘의 실천</th></tr></thead>
+                  <tbody>
+                    <tr><td data-l="원칙">주도성</td><td data-l="오늘의 실천">결과물의 최종 판단과 수정은 교사가</td></tr>
+                    <tr><td data-l="원칙">교육적 합목적성</td><td data-l="오늘의 실천">도구가 아니라 수업 목표에서 출발</td></tr>
+                    <tr><td data-l="원칙">포용성</td><td data-l="오늘의 실천">영상에는 자막, 웹 자료는 휴대폰에서도</td></tr>
+                    <tr><td data-l="원칙">안전성</td><td data-l="오늘의 실천">학생 실명·생기부 원문은 넣지 않는다. 비밀번호·API 키도 마찬가지</td></tr>
+                    <tr><td data-l="원칙">투명성</td><td data-l="오늘의 실천">AI로 만든 자료임을 밝히고 출처를 적는다</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>준비물</span></header>
+          <ul class="todo">
+            <li><label><input type="checkbox" id="prep1">Claude 유료 요금제 계정</label></li>
+            <li><label><input type="checkbox" id="prep2">GitHub 계정</label></li>
+            <li><label><input type="checkbox" id="prep3">Google 계정</label></li>
+            <li><label><input type="checkbox" id="prep4">PC 브라우저(Edge 또는 Chrome)</label></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel p1" id="part1">
+      <span class="badge">Part 1 · 만들기</span>
+      <h2 class="ph2">직접 만들어 보면 <strong class="grad">감이 온다</strong></h2>
+
+      <div class="seg" id="s-motion">
+        <div>
+          <h3>모션 그래픽</h3>
+          <p class="say">좋은 아이디어는 이미 누군가 만들어 두었다. <b>Prompt Motion</b>에는 Claude로 만든 영상과 그 프롬프트가 함께 실려 있다. 구조만 빌려 우리 단원으로 바꾸면 된다.</p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <p class="lab">고르는 법</p>
+              <ul><li>Prompt·Skill 필터, Kinetic type·Diagrams·Charts 태그로 좁힌다</li><li>작품 페이지에서 모델과 사용 기술(Stack)을 확인한다</li></ul>
+              <p class="lab">진행</p>
+              <ol><li>수업에 쓸 작품을 고른다</li><li>구조만 참고해 우리 단원 버전으로 요청한다</li><li>"속도를 늦춰 줘"처럼 한 번에 하나씩 고친다</li></ol>
+              <p class="lab">주의</p>
+              <ul><li>렌더링은 오래 걸린다. 완성본은 미리 만들어 둔다</li><li>작품과 프롬프트의 저작권은 원작자에게 있다. 링크로만 안내한다</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>중학교 3학년 '에너지 전환과 보존' 단원 도입용 웹페이지를 HTML 한 파일로 만들어 줘.
+- 첫 화면에는 질문 하나: "롤러코스터는 왜 첫 언덕이 가장 높을까?"
+- 스크롤하면 수레가 내려가고, 위치 에너지와 운동 에너지 막대그래프가 함께 바뀌게
+- 마찰이 없을 때와 있을 때를 버튼으로 비교(마찰이 있으면 일부가 열에너지로 바뀌는 것까지)
+- 휴대폰에서도 깨지지 않게, '동작 줄이기' 설정을 켠 사용자에게는 애니메이션 멈추기
+- 코드에는 학생과 교사가 이해할 수 있는 한국어 주석 달기</pre>
+          <div class="links"><a href="https://prompt-motion.com/">Prompt Motion</a><a href="https://prompt-motion.com/templates">Templates</a></div>
+        </div>
+      </div>
+
+      <div class="seg" id="s-video">
+        <div>
+          <h3>개념 영상</h3>
+          <p class="say">개념 영상의 관건은 무엇일까? <b>일상의 질문에서 출발해 정의로 끝나는 흐름</b>이다. Customize 화면에 주제와 대상만 넣으면 그 흐름을 갖춘 프롬프트가 나온다.</p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <p class="lab">참고 작품</p>
+              <ul><li>Derivative concept explainer: Manim(수학·과학 애니메이션)과 edge-tts(Microsoft Edge 음성 합성)로 만든 영상</li></ul>
+              <p class="lab">진행</p>
+              <ol><li>Customize에 주제 '자유 낙하', 대상 '중학교 3학년', 언어 Korean, 목소리 ko-KR-SunHiNeural을 넣는다</li><li>대본과 장면 구성표부터 확인한다</li><li>확인한 뒤 렌더링한다</li></ol>
+              <p class="lab">주의</p>
+              <ul><li>과학적 정확성은 교사가 확인한다. '공기 저항을 무시하면' 같은 조건이 빠지기 쉽다</li><li>자막은 꼭 넣는다</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>Manim으로 중학교 3학년 대상 1분짜리 '자유 낙하' 개념 영상을 만들어 줘.
+- 시작 질문: "무거운 공과 가벼운 공을 같은 높이에서 동시에 떨어뜨리면 무엇이 먼저 떨어질까?"
+- 순서: 질문 → 직관 → 쉬운 예 → 어려운 예 → 정리 → 생각해 볼 질문
+- 정리 문장: 공기 저항을 무시하면 질량과 관계없이 같은 가속도(약 9.8 m/s²)로 떨어진다
+- 내레이션은 한국어, edge-tts 목소리 ko-KR-SunHiNeural, 자막은 문장마다 맞추기
+- 먼저 대본과 장면 구성표를 보여 주고, 내가 확인하면 1920×1080 MP4로 만들어 줘</pre>
+          <div class="links"><a href="https://prompt-motion.com/linearuncle-5d2bae">참고 작품</a><a href="https://prompt-motion.com/customize/linearuncle-5d2bae">Customize</a></div>
+        </div>
+      </div>
+
+      <div class="seg" id="s-artifact">
+        <div>
+          <h3>아티팩트</h3>
+          <p class="say">대화로 만든 결과물은 링크가 있는 페이지가 된다. 다만 <b>누구에게 어디까지 열어 줄지는 교사가 정한다.</b></p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <p class="lab">공유 권한</p>
+              <div class="tw">
+                <table>
+                  <tbody>
+                    <tr><td>보기</td><td>열람, 댓글 읽기</td></tr>
+                    <tr><td>댓글</td><td>보기 + 댓글 달기, 파일 내려받기</td></tr>
+                    <tr><td>편집</td><td>댓글 + 내용 수정</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul>
+                <li>Pro·Max도 링크 공유와 이메일 초대(베타, 편집 권한 가능)가 된다</li>
+                <li>문서(Docs)는 이메일 초대가 안 된다. 함께 고치려면 같은 조직(Team·Enterprise)이어야 한다</li>
+                <li>보는 사람도 Claude 로그인이 필요할 수 있다. 학생용은 GitHub 배포로 간다</li>
+                <li>처음엔 나만 보기로 두고, 공유 전에 학생 정보가 없는지 확인한다</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>방금 만든 '자유 낙하' 영상 내용으로 아래 세 가지를 만들어 줘.
+1) 학생용 학습지(문서): 빈칸 채우기 5문항 + 생각해 볼 질문 1개
+2) 수업용 슬라이드 5장: 장마다 핵심 문장 하나
+3) 모둠 활동 체크리스트(시트): 모둠명, 역할, 완료 여부 열</pre>
+          <div class="links"><a href="https://support.claude.com/en/articles/9547008-share-artifacts">공유 도움말</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel p2" id="part2">
+      <span class="badge">Part 2 · 연결하기</span>
+      <h2 class="ph2">내 자료와 도구를 <strong class="grad">Claude에 잇는다</strong></h2>
+      <p class="brk">쉬는 시간</p>
+
+      <div class="seg" id="s-pdf">
+        <div>
+          <h3>책 PDF</h3>
+          <p class="say">책을 학습시키는 것이 아니다. <b>저장해 두고 그때그때 참조하는 것이다.</b> 그래서 답을 받을 때 근거 쪽수를 함께 묻는다.</p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <div class="tw">
+                <table class="stack">
+                  <thead><tr><th></th><th>아티팩트에 저장</th><th>프로젝트 지식</th></tr></thead>
+                  <tbody>
+                    <tr><td data-l="">범위</td><td data-l="아티팩트에 저장">어느 대화에서든</td><td data-l="프로젝트 지식">그 프로젝트 안에서만</td></tr>
+                    <tr><td data-l="">불러오기</td><td data-l="아티팩트에 저장">어떤 아티팩트인지 짚어 준다</td><td data-l="프로젝트 지식">자동으로 참고한다</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul><li>본인이 가진 책을 개인 참고용으로만 쓴다</li><li>원문은 나만 보기. 공유는 내가 정리한 수업안만</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>『책 제목』 아티팩트를 읽고, 중학교 3학년 '운동과 에너지' 단원에 적용할 수업 아이디어 3개를 제안해 줘.
+- 아이디어마다: 활동 이름, 학생 활동 순서(3단계), 준비물
+- 근거가 된 책의 장과 쪽수를 함께 적어 줘
+- 책에 없는 내용은 '제안'이라고 따로 표시해 줘</pre>
+        </div>
+      </div>
+
+      <div class="seg" id="s-github">
+        <div>
+          <h3>GitHub 배포</h3>
+          <p class="say">학생은 로그인 없이 링크 하나로 들어와야 한다. 그래서 <b>학생용 앱은 GitHub Pages로 배포한다.</b></p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <p class="lab">진행</p>
+              <ol>
+                <li>GitHub에 공개(Public) 저장소를 만든다</li>
+                <li>Claude와 GitHub를 연결한다</li>
+                <li>코드를 만들어 main 브랜치에 커밋하게 한다</li>
+                <li>Settings → Pages에서 Branch를 main, 폴더를 / (root)로 저장한다</li>
+                <li>https://아이디.github.io/저장소이름/ 으로 접속한다</li>
+              </ol>
+              <p class="lab">아티팩트와 무엇이 다른가</p>
+              <ul><li>아티팩트: 빨리 만들고 교사끼리 나눈다</li><li>GitHub Pages: 누구나 링크로 들어온다. 한 학기 내내 쓰는 앱에 맞다</li></ul>
+              <p class="lab">주의</p>
+              <ul><li>공개 저장소는 누구나 본다. 학생 정보, 비밀번호, API 키는 커밋하지 않는다</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>이 저장소에 '자유 낙하 실험 기록' 웹앱을 index.html 한 파일로 만들어 main 브랜치에 커밋해 줘.
+- 낙하 높이(m)를 입력하면 걸리는 시간을 계산(공기 저항 무시, g = 9.8 m/s²)
+- 학생이 잰 시간과 계산값을 표로 비교하고 차이를 %로 보여 주기
+- 데이터는 학생 브라우저에만 저장하고 서버로 보내지 않기
+- 코드에는 학생과 교사가 이해할 수 있는 한국어 주석 달기</pre>
+          <div class="links"><a href="https://docs.github.com/ko/pages/getting-started-with-github-pages/creating-a-github-pages-site">GitHub Pages 안내</a></div>
+        </div>
+      </div>
+
+      <div class="seg" id="s-cal">
+        <div>
+          <h3>캘린더</h3>
+          <p class="say">공문을 붙여 넣으면 일정이 캘린더에 들어가고, 휴대폰에서도 바로 보인다. <b>등록 전 확인 한 번</b>이 실수를 막는다.</p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <ul>
+                <li>커넥터에서 Google Calendar를 연결한다</li>
+                <li>휴대폰은 같은 Google 계정으로 Google 캘린더 앱에 로그인하거나, 아이폰 기본 캘린더에 계정을 추가하면 동기화된다</li>
+                <li>시간이 부족하면 시연만 한다</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>아래 공문에서 일정만 뽑아 내 구글 캘린더에 등록해 줘.
+- 등록 전에 날짜, 시간, 장소, 준비물을 표로 먼저 보여 줘
+- 시간이 적혀 있지 않은 일정은 종일 일정으로
+- 제목 앞에 [공문]을 붙여 줘
+
+(여기에 공문 내용 붙여 넣기)</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel p3" id="part3">
+      <span class="badge">Part 3 · 자동화하기</span>
+      <h2 class="ph2">잘 된 작업은 <strong class="grad">반복할 수 있어야 한다</strong></h2>
+
+      <div class="seg" id="s-skill">
+        <div>
+          <h3>스킬</h3>
+          <p class="say">한 번 잘 된 작업을 매번 처음부터 다시 할 필요는 없다. <b>순서를 스킬로 저장해 두면 다음에는 한 줄이면 된다.</b></p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <p class="lab">만드는 법</p>
+              <ul><li>잘 된 대화 끝에 "방금 과정을 스킬로 만들어 줘" → 검토 카드에서 확인 → 저장</li></ul>
+              <p class="lab">강사 시연</p>
+              <ul><li>공문 파일 PDF 일괄 변환과 월별 분류</li><li>장바구니 캡처로 물품 구입 품의 3종 만들기</li><li>공문 속 일정 캘린더 등록</li></ul>
+              <p class="lab">주의</p>
+              <ul><li>스킬 안에 개인정보나 비밀번호를 적지 않는다</li><li>스킬 하나에는 일 하나만 담는다</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>방금 한 '공문 → 캘린더 등록' 과정을 스킬로 만들어 줘.
+- 언제 쓰는지: 공문, 메신저, 메일 내용을 주며 일정 등록을 요청할 때
+- 순서: 일정 뽑기 → 표로 확인받기 → 등록 → 겹치는 일정 알려 주기
+- 제목 규칙: 앞에 [공문]</pre>
+        </div>
+      </div>
+
+      <div class="seg" id="s-sched">
+        <div>
+          <h3>예정</h3>
+          <p class="say">정해 둔 시간이 되면 Claude가 알아서 일을 시작한다. <b>스킬과 예정이 만날 때 비로소 자동화가 된다.</b></p>
+          <details class="more">
+            <summary><span class="o">자세히</span><span class="c">접기</span></summary>
+            <div class="body">
+              <ul>
+                <li>실행할 때마다 새 대화에서 시작한다. 필요한 정보는 프롬프트에 모두 담는다</li>
+                <li>승인 설정을 확인한다. 승인이 필요한 단계에서 멈출 수 있다</li>
+                <li>내 컴퓨터 파일이 필요하면 그 시간에 컴퓨터가 켜져 있어야 한다</li>
+              </ul>
+              <p class="lab">교사용 예</p>
+              <ul><li>매일 아침 일정 브리핑</li><li>금요일마다 다음 주 할 일 정리</li><li>수행평가 마감 전날 안내문 초안</li></ul>
+            </div>
+          </details>
+        </div>
+        <div class="pr">
+          <header><span>프롬프트</span><button class="copy" type="button">복사</button></header>
+<pre>평일 아침 7시 30분마다 아래 일을 해 줘.
+1) 내 구글 캘린더에서 오늘 일정을 시간순으로 정리
+2) 일정마다 준비할 것을 한 줄씩
+3) 오늘 마감인 일이 있으면 맨 위에 표시
+결과는 5줄 안으로 짧게.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel p0" id="s-close">
+      <span class="badge">Finish</span>
+      <h2 class="ph2">돌아가서 <strong class="grad">무엇을 바꿀 것인가?</strong></h2>
+      <p class="plead">연수는 무엇을 배웠는가보다 돌아가서 무엇을 바꿨는가로 평가받는다.</p>
+      <div class="seg">
+        <div class="pr">
+          <header><span>교실에서 해 볼 것</span></header>
+          <ul class="todo">
+            <li><label><input type="checkbox" id="do1">스킬 하나 저장하기</label></li>
+            <li><label><input type="checkbox" id="do2">예정 하나 등록하기</label></li>
+            <li><label><input type="checkbox" id="do3">동료와 아티팩트 나누기</label></li>
+            <li><label><input type="checkbox" id="do4">학생용 앱 배포하기</label></li>
+          </ul>
+        </div>
+        <div class="pr">
+          <header><span>참고 링크</span></header>
+          <div class="links" style="display:grid;gap:10px;padding:18px 20px">
+            <a href="https://prompt-motion.com/">Prompt Motion</a>
+            <a href="https://prompt-motion.com/customize">Prompt Motion Customize</a>
+            <a href="https://support.claude.com/en/articles/9547008-share-artifacts">Claude 아티팩트 공유 도움말</a>
+            <a href="https://docs.github.com/ko/pages/getting-started-with-github-pages/creating-a-github-pages-site">GitHub Pages 안내</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="band foot">
+  <div class="wrap">
+    <p>Claude 실전 활용 연수 · 강사 강현욱 · Claude와 함께 만들었다.</p>
+    <p>Prompt Motion의 영상과 프롬프트는 각 원작자의 것이다. 이 자료의 예시 프롬프트는 연수용으로 새로 썼다.</p>
+  </div>
+</footer>
+
+<script>
+{
+  // 연수 구간: id(바로가기), k(이름), m(시작 위치), d(길이), p(파트 0=공통 1=만들기 2=연결하기 3=자동화하기, -1=쉬는 시간)
+  const segs = [
+    {id:'s-open', k:'오프닝', m:0, d:10, p:0},
+    {id:'s-motion', k:'모션 그래픽', m:10, d:12, p:1},
+    {id:'s-video', k:'개념 영상', m:22, d:13, p:1},
+    {id:'s-artifact', k:'아티팩트', m:35, d:15, p:1},
+    {id:'', k:'쉬는 시간', m:50, d:5, p:-1},
+    {id:'s-pdf', k:'책 PDF', m:55, d:10, p:2},
+    {id:'s-github', k:'GitHub 배포', m:65, d:20, p:2},
+    {id:'s-cal', k:'캘린더', m:85, d:10, p:2},
+    {id:'s-skill', k:'스킬', m:95, d:10, p:3},
+    {id:'s-sched', k:'예정', m:105, d:10, p:3},
+    {id:'s-close', k:'마무리', m:115, d:5, p:0}
+  ];
+  const T = 120;
+  const $ = s => document.querySelector(s);
+  const fig = $('#fig'), svg = $('#dial'), dc = $('#dc'), dcT = $('#dcT'), dcS = $('#dcS');
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let geo = null, drawn = false;
+
+  const pt = (a, r) => { const q = a * Math.PI / 180; return [geo.cx + r * Math.sin(q), geo.cy - r * Math.cos(q)]; };
+  const arcPath = (a0, a1, r) => {
+    const p0 = pt(a0, r), p1 = pt(a1, r);
+    return 'M' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + 'A' + r + ' ' + r + ' 0 ' + (a1 - a0 > 180 ? 1 : 0) + ' 1 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1);
+  };
+
+  // 다이얼: 구간마다 링 위의 호 하나, 파트별 색
+  const draw = () => {
+    const W = fig.clientWidth, H = fig.clientHeight;
+    if (!W || !H) return;
+    const lab = W >= 440;
+    const R = (Math.min(W, H) / 2 - (lab ? 100 : 26)) / 1.08;
+    const sw = Math.max(16, R * 0.16);
+    geo = {cx:W / 2, cy:H / 2, rIn:R - sw / 2 - 12, rOut:R + sw / 2 + 12};
+    const cap = (sw / 2) / R * 180 / Math.PI;
+    let h = '<defs>' + [1, 2, 3].map(i => {
+      const v = ['', 'b', 'v', 'g'][i];
+      return '<linearGradient id="gp' + i + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--' + v + '1)"/><stop offset="1" style="stop-color:var(--' + v + '2)"/></linearGradient>';
+    }).join('') + '</defs>';
+    h += '<circle cx="' + geo.cx + '" cy="' + geo.cy + '" r="' + geo.rOut + '" fill="none" stroke="var(--n0)" stroke-width="1.5" stroke-dasharray="2 7"/>';
+    h += '<circle cx="' + geo.cx + '" cy="' + geo.cy + '" r="' + geo.rIn + '" fill="none" stroke="var(--n0)" stroke-width="1"/>';
+    segs.forEach((s, i) => {
+      const a0 = s.m / T * 360, a1 = (s.m + s.d) / T * 360;
+      if (s.p < 0) {
+        h += '<path d="' + arcPath(a0 + 1.5, a1 - 1.5, R) + '" fill="none" stroke="var(--mute)" stroke-width="' + (sw * 0.3) + '" stroke-dasharray="3 5"/>';
+        return;
+      }
+      const g0 = a0 + cap + 0.8, g1 = Math.max(g0 + 0.5, a1 - cap - 0.8);
+      const stroke = s.p === 0 ? 'var(--n0)' : 'url(#gp' + s.p + ')';
+      const anim = drawn ? '' : ' pathLength="1" stroke-dasharray="1" style="animation-delay:' + (i * 70) + 'ms"';
+      h += '<a class="arc" href="#' + s.id + '" data-i="' + i + '" aria-label="' + s.k + '"><path d="' + arcPath(g0, g1, R) + '" fill="none" stroke="' + stroke + '" stroke-width="' + sw + '" stroke-linecap="round"' + anim + '/></a>';
+      if (lab && s.d >= 10) {
+        const mid = (a0 + a1) / 2, q = mid * Math.PI / 180, p = pt(mid, R + sw / 2 + 30);
+        const sx = Math.sin(q), cy = Math.cos(q);
+        const anc = sx > 0.25 ? 'start' : sx < -0.25 ? 'end' : 'middle';
+        const dy = cy < -0.3 ? 14 : cy > 0.3 ? -2 : 5;
+        h += '<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + dy).toFixed(1) + '" text-anchor="' + anc + '" font-size="14" font-weight="600" fill="var(--ink)">' + s.k + '</text>';
+      }
+    });
+    // 네 방향 점선 원 마커(장식)
+    [0, 90, 180, 270].forEach(a => {
+      const p = pt(a, geo.rOut);
+      h += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="10" fill="none" stroke="var(--b1)" stroke-opacity=".35" stroke-dasharray="2 3"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="4.5" fill="var(--card)" stroke="var(--b1)" stroke-width="2"/>';
+    });
+    svg.innerHTML = h;
+    dc.style.setProperty('--dw', Math.round(geo.rIn * 2 * 0.72) + 'px');
+    if (!drawn) setTimeout(() => { drawn = true; }, 1800);
+  };
+
+  // 호 위에 마우스를 올리면 가운데에 그 구간 이름
+  svg.addEventListener('mouseover', ev => {
+    const a = ev.target.closest('.arc'); if (!a) return;
+    const s = segs[+a.dataset.i];
+    dcT.textContent = s.k;
+    dcS.textContent = ['', 'Part 1 · 만들기', 'Part 2 · 연결하기', 'Part 3 · 자동화하기'][s.p] || '시작과 마무리';
+  });
+  svg.addEventListener('mouseout', ev => {
+    if (!ev.target.closest('.arc')) return;
+    dcT.textContent = '2시간'; dcS.textContent = '11개 구간';
+  });
+
+  const roFig = new ResizeObserver(() => { draw(); });
+  roFig.observe(fig);
+  draw();
+
+  // 프롬프트 복사 버튼
+  document.addEventListener('click', async ev => {
+    const b = ev.target.closest('.copy');
+    if (!b) return;
+    const pre = b.closest('.pr').querySelector('pre');
+    try {
+      await navigator.clipboard.writeText(pre.innerText);
+      b.textContent = '복사됨';
+    } catch (e) {
+      const r = document.createRange();
+      r.selectNodeContents(pre);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      b.textContent = 'Ctrl+C로 복사';
+    }
+    setTimeout(() => { b.textContent = '복사'; }, 1800);
+  });
+
+  // 준비물·마무리 체크는 이 브라우저에만 기억
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('cl-todo') || '{}'); } catch (e) {}
+  for (const i of document.querySelectorAll('.todo input')) {
+    i.checked = !!saved[i.id];
+    i.addEventListener('change', () => {
+      saved[i.id] = i.checked;
+      try { localStorage.setItem('cl-todo', JSON.stringify(saved)); } catch (e) {}
+    });
+  }
+
+  // 스크롤하면 카드와 패널이 부드럽게 떠오르기(동작 줄이기 설정 시 끔)
+  if (!reduce && 'IntersectionObserver' in window) {
+    const els = document.querySelectorAll('.card, .panel');
+    const ioRv = new IntersectionObserver(list => {
+      for (const en of list) if (en.isIntersecting) { en.target.classList.add('in'); ioRv.unobserve(en.target); }
+    }, {rootMargin:'0px 0px -8% 0px'});
+    els.forEach((el, i) => {
+      el.classList.add('rv');
+      if (el.classList.contains('card')) el.style.transitionDelay = (i % 3) * 80 + 'ms';
+      ioRv.observe(el);
+    });
+  }
+}
+</script>
+</body>
+</html>
